@@ -1,11 +1,4 @@
-#{ 
- # Driver Code Starts
-#Initial Template for Python 3
-
-import io
-import sys
-
-    
+  
 # Node class
 class Node:
     def __init__(self,data):
