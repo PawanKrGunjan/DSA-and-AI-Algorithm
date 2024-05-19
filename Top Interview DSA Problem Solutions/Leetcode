@@ -1,0 +1,74 @@
+class Solution:
+    def merge(self, nums1, m: int, nums2, n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        temp =[]
+        i=j=0
+        while j<n:
+            if temp:
+                while temp[0] < nums2[j]:
+                    temp.append(nums1[i])
+                    nums1[i]=temp.pop(0)
+                    if temp[0]==0:
+                        break
+                    i+=1
+            while nums2[j]>nums1[i] and nums1[i]!=0:
+                i+=1
+            if nums1[i]!=0:
+                temp.append(nums1[i])
+            nums1[i]=nums2[j]
+            j+=1
+            i+=1
+            #print(nums1,j)
+        i=m+n-len(temp)
+        while temp and temp[0]!=0:
+            nums1[i]=temp.pop(0)
+            i+=1
+
+    def removeDuplicates(self, nums) -> int:
+        temp =  nums[0]
+        n=len(nums)
+        j=1
+        i=1
+        while j<n and i<n:
+            while temp ==nums[j]:
+                j+=1
+                if j==n:
+                    return i
+            nums[i],nums[j]=nums[j],nums[i]
+            temp =nums[i]
+            j+=1
+            i+=1
+        return i
+
+    def rotate(self, nums, k) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        def rotatelist(nums,i,j):
+            while i<j:
+                nums[i],nums[j]=nums[j],nums[i]
+                i+=1
+                j-=1
+        k =k%n
+        rotatelist(nums,n-k,n-1)
+        rotatelist(nums,0,n-k-1)
+        rotatelist(nums,0,n-1)
+
+    def canJump(self, nums) -> bool:
+        n = len(nums)
+        if n<=1:
+            return True
+        max_jumps=0
+        for i in range(n):
+            next_jumps= i+nums[i]
+            for j in range(i,next_jumps):
+                jumps=j+nums[j]
+                if jumps>=n-1:
+                    return True
+                max_jumps=max(max_jumps,next_jumps,jumps)
+            if next_jumps ==i and max_jumps<=i:
+                return False
+        return False
